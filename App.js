@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Home from "./components/Home";
+import PokemonRoom from "./components/PokemonRoom"
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
@@ -10,7 +11,8 @@ const RootStack = createStackNavigator({
       header: null,
       gesturesEnabled: false
     }
-  }
+  },
+  PokemonRoom
 });
 const AppContainer = createAppContainer(RootStack);
 

@@ -8,7 +8,6 @@ class Home extends Component {
     state = { pokemon: "", error: false, fakePokemon: "" }
     render() {
         const { pokemon, error, fakePokemon } = this.state
-        console.log(pokemon)
         return (
             <ImageBackground source={require("../assets/pokemon-bg.jpg")} style={styles.container}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -29,7 +28,6 @@ class Home extends Component {
     handleSearch = e => {
         const { pokemon } = this.state;
         const formattedPokemon = pokemon.toLowerCase()
-        console.log(pokemon)
         axios.get(`https://pokeapi.co/api/v2/pokemon/${formattedPokemon}`).then(({ data }) => { this.handleSuccess(data) }).catch(this.handleError(pokemon))
     }
     handleError = pokemon => {
@@ -37,7 +35,8 @@ class Home extends Component {
     }
     handleSuccess = data => {
         this.setState({ error: false });
-        const { id, name, height, weight } = data;
+        const { pokemon } = this.state;
+        const { id, height, weight } = data;
         const abilities = data.abilities.map(({ ability }) => {
             return ability.name
         });
@@ -45,12 +44,20 @@ class Home extends Component {
             return move.name
         })
         const sprite_url = data.sprites.front_default;
-        const stats = data.stats.map(obj => {
-            return { [obj.stat.name]: obj.base_stat }
+        // console.log(data.stats, "unformatted")
+        const stats = data.stats.reduce((total, currObj) => {
+            total[currObj.stat.name] = currObj.base_stat;
+            return total
+        }, {})
+        // console.log(stats, "stats")
+        const types = data.types.map(({ type }) => {
+            return type.name;
         })
-
-        console.log("id", id, "name", name, "height", height, "weight", weight, "spec-abilities", abilities, "moves", moves, "sprite", sprite_url, "stats", stats)
-        // this.props.navigation.navigate("PokemonRoom")
+        const { speed, attack, defense, hp } = stats;
+        const specAtk = stats[`special-attack`];
+        const specDef = stats[`special-defense`];
+        // console.log("id", id, "name", pokemon, "height", height, "weight", weight, "spec-abilities", abilities, "moves", moves, "sprite", sprite_url, "stats", stats, "types", types)
+        this.props.navigation.navigate("PokemonRoom", { id, pokemon, height, weight, abilities, moves, sprite_url, speed, attack, defense, hp, specAtk, specDef, types })
     }
 }
 
