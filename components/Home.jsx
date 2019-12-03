@@ -38,18 +38,25 @@ class Home extends Component {
     handleSuccess = data => {
         this.setState({ error: false });
         const { id, name, height, weight } = data;
-        const abilities = data.abilities.map(obj => {
-            return obj.ability.name
+        const abilities = data.abilities.map(({ ability }) => {
+            return ability.name
         });
-        const moves = data.
+        const moves = data.moves.map(({ move }) => {
+            return move.name
+        })
+        const sprite_url = data.sprites.front_default;
+        const stats = data.stats.map(obj => {
+            return { [obj.stat.name]: obj.base_stat }
+        })
 
-            console.log("id", id, "name", name, "height", height, "weight", weight, "spec-abilities", abilities)
+        console.log("id", id, "name", name, "height", height, "weight", weight, "spec-abilities", abilities, "moves", moves, "sprite", sprite_url, "stats", stats)
         // this.props.navigation.navigate("PokemonRoom")
     }
 }
 
 const styles = StyleSheet.create({
     container: {
+        obj.stat.name
         flex: 1,
         alignItems: "center",
         justifyContent: "space-between"
