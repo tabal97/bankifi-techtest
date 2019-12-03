@@ -56,7 +56,6 @@ class Home extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        obj.stat.name
         flex: 1,
         alignItems: "center",
         justifyContent: "space-between"
