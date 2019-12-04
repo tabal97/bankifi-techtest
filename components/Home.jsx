@@ -18,7 +18,7 @@ class Home extends Component {
                         value={pokemon}
                         autoCorrect={false} />
                     {error && <Text style={styles.errorMsg}>Are you sure {fakePokemon} is a real pokemon?</Text>}
-                    <TouchableOpacity onPress={this.handleSearch} disabled={!pokemon}><Text style={styles.button}>Search</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={this.handleSearch} disabled={!pokemon}><Text style={styles.button}>Search!</Text></TouchableOpacity>
                 </KeyboardAvoidingView></ImageBackground>);
     }
 
@@ -34,16 +34,16 @@ class Home extends Component {
         this.setState({ error: true, fakePokemon: pokemon })
     }
     handleSuccess = data => {
-        this.setState({ error: false });
-        const { pokemon } = this.state;
-        const { id, height, weight } = data;
+        this.setState({ error: false, pokemon: "" });
+        const { id, height, weight, name: pokemon } = data;
         const abilities = data.abilities.map(({ ability }) => {
             return ability.name
         });
         const moves = data.moves.map(({ move }) => {
             return move.name
         })
-        const sprite_url = data.sprites.front_default;
+        const front_male = data.sprites.front_default;
+        const back_male = data.sprites.back_default;
         // console.log(data.stats, "unformatted")
         const stats = data.stats.reduce((total, currObj) => {
             total[currObj.stat.name] = currObj.base_stat;
@@ -57,7 +57,7 @@ class Home extends Component {
         const specAtk = stats[`special-attack`];
         const specDef = stats[`special-defense`];
         // console.log("id", id, "name", pokemon, "height", height, "weight", weight, "spec-abilities", abilities, "moves", moves, "sprite", sprite_url, "stats", stats, "types", types)
-        this.props.navigation.navigate("PokemonRoom", { id, pokemon, height, weight, abilities, moves, sprite_url, speed, attack, defense, hp, specAtk, specDef, types })
+        this.props.navigation.navigate("PokemonRoom", { id, pokemon, height, weight, abilities, moves, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
     }
 }
 
@@ -76,12 +76,15 @@ const styles = StyleSheet.create({
         color: "red",
     },
     inputBox: {
-        height: 50,
-        width: 200,
+        height: 100,
+        width: 300,
         padding: 3,
         margin: 3,
         borderRadius: 20,
-        marginBottom: 100,
+        marginBottom: 50,
+        textAlign: "center",
+        fontSize: 30,
+        borderWidth: 3,
         backgroundColor: "whitesmoke"
     },
     button: {

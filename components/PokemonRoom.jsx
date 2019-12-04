@@ -1,39 +1,44 @@
 import React, { Component } from 'react';
-import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, FlatList } from "react-native";
-
+import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, FlatList, SafeAreaView, ScrollView } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons"
 class PokemonRoom extends Component {
     //id, name, height, weight, abilities, moves, sprite_url, stats, type
-    state = { id: null, name: "", height: null, weight: null, abilities: [], moves: [], sprite_url: "", speed: 0, hp: 0, attack: 0, defense: 0, specAtk: 0, specDef: 0, types: [] }
+    state = { id: null, name: "", height: null, weight: null, abilities: [], moves: [], front_male: "", back_male: "", speed: 0, hp: 0, attack: 0, defense: 0, specAtk: 0, specDef: 0, types: [] }
     render() {
-        const { id, name, height, weight, abilities, moves, sprite_url, speed, defense, attack, hp, specAtk, specDef, types } = this.state;
-        return (<View>
-            <Text>Name: {name} ID: {id}</Text>
-            <Text>Height: {height}</Text>
-            <Text>Weight: {weight}</Text>
-            <Text>Abilities: {abilities}</Text>
-            <Text>Moves: {moves}</Text>
-            <Text>Stats:</Text>
-            <Text>HP: {hp}</Text>
-            <Text>ATK: {attack}</Text>
-            <Text>DEF: {defense}</Text>
-            <Text>Speed: {speed}</Text>
-            <Text>Special-ATK: {specAtk}</Text>
-            <Text>Special-DEF: {specDef}</Text>
-            <Text>Type/Types: </Text>
-            {types.map(type => {
-                return <Text key={type}>{type}</Text>
-            })}
-        </View>);
+        const { id, name, height, weight, abilities, moves, front_male, back_male, speed, defense, attack, hp, specAtk, specDef, types } = this.state;
+        return (
+            <ImageBackground source={require("../assets/pokemonRoom-bg.jpeg")} style={styles.container}>
+                <SafeAreaView style={styles.container}>
+                    <Text style={styles.name}>{name} - ID: {id}</Text>
+                    <View style={styles.images}>
+                        <Image style={styles.img} source={front_male ? { uri: front_male } : require("../assets/loading.jpg")}></Image>
+                        <Image style={styles.img} source={back_male ? { uri: back_male } : require("../assets/loading.jpg")}></Image>
+                    </View>
+                    <Text style={styles.text}>Height: {height} || Weight: {weight}</Text>
+                    <Text style={styles.text}>Abilities: {abilities}</Text>
+                    {/* <Text>Moves: {moves}</Text> */}
+                    <Text style={styles.stats}>Stats:</Text>
+                    <Text style={styles.text}>HP: {hp}  ||  ATK: {attack}  || DEF: {defense}  ||  Speed: {speed}</Text>
+                    <Text style={styles.text}>Special-ATK: {specAtk}  ||  Special-DEF: {specDef}</Text>
+                    <Text style={styles.stats}>Type/Types: </Text>
+                    {types.map(type => {
+                        return <Text style={styles.text} key={type}>{type}</Text>
+                    })}
+                </SafeAreaView>
+            </ImageBackground>
+        );
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
         const id = this.props.navigation.getParam("id");
         const pokemon = this.props.navigation.getParam("pokemon");
         const height = this.props.navigation.getParam("height");
         const weight = this.props.navigation.getParam("weight");
-        const abilities = this.props.navigation.getParam("abilities");
+        const abilities = this.props.navigation.getParam("abilities").join("  ||  ");
         const moves = this.props.navigation.getParam("moves");
-        const sprite_url = this.props.navigation.getParam("sprite_url");
+        const front_male = this.props.navigation.getParam("front_male");
+        const back_male = this.props.navigation.getParam("back_male");
+        console.log(abilities)
         const speed = this.props.navigation.getParam("speed");
         const attack = this.props.navigation.getParam("attack");
         const defense = this.props.navigation.getParam("defense");
@@ -42,10 +47,57 @@ class PokemonRoom extends Component {
         const specDef = this.props.navigation.getParam("specDef");
         const types = this.props.navigation.getParam("types");
 
-        this.setState({ id, name: pokemon, height, weight, abilities, moves, sprite_url, speed, attack, defense, hp, specAtk, specDef, types })
+
+        this.setState({ id, name: pokemon, height, weight, abilities, moves, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
         // console.log(pokemon, id, height, weight, abilities, moves, sprite_url, stats, types)
         // console.log(stats)
     }
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "space-evenly"
+    },
+    name: {
+        marginTop: 5,
+        fontSize: 30,
+        padding: 30,
+        borderRadius: 20,
+        backgroundColor: "whitesmoke",
+        overflow: "hidden",
+        borderWidth: 5,
+        fontWeight: "bold"
+    },
+    img: {
+        width: 200,
+        height: 200,
+        resizeMode: 'contain'
+    },
+    images: {
+        flexDirection: "row",
+        justifyContent: "space-around"
+    },
+    row: {
+        flexDirection: "row",
+        textAlign: "center"
+    },
+    text: {
+        fontSize: 22,
+        backgroundColor: "skyblue",
+        padding: 5,
+        borderRadius: 5,
+        overflow: "hidden"
+    },
+    stats: {
+        textDecorationLine: "underline",
+        fontSize: 30,
+        padding: 10,
+        borderRadius: 10,
+        overflow: "hidden",
+        borderWidth: 2,
+        backgroundColor: "whitesmoke",
+    }
+})
 
 export default PokemonRoom;
