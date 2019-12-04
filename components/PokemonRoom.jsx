@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, FlatList, SafeAreaView, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"
 class PokemonRoom extends Component {
-    //id, name, height, weight, abilities, moves, sprite_url, stats, type
     state = { id: null, name: "", height: null, weight: null, abilities: [], moves: [], front_male: "", back_male: "", speed: 0, hp: 0, attack: 0, defense: 0, specAtk: 0, specDef: 0, types: [] }
     render() {
         const { id, name, height, weight, abilities, moves, front_male, back_male, speed, defense, attack, hp, specAtk, specDef, types } = this.state;
@@ -16,7 +15,6 @@ class PokemonRoom extends Component {
                     </View>
                     <Text style={styles.text}>Height: {height} || Weight: {weight}</Text>
                     <Text style={styles.text}>Abilities: {abilities}</Text>
-                    {/* <Text>Moves: {moves}</Text> */}
                     <Text style={styles.stats}>Stats:</Text>
                     <Text style={styles.text}>HP: {hp}  ||  ATK: {attack}  || DEF: {defense}  ||  Speed: {speed}</Text>
                     <Text style={styles.text}>Special-ATK: {specAtk}  ||  Special-DEF: {specDef}</Text>
@@ -38,7 +36,6 @@ class PokemonRoom extends Component {
         const moves = this.props.navigation.getParam("moves");
         const front_male = this.props.navigation.getParam("front_male");
         const back_male = this.props.navigation.getParam("back_male");
-        console.log(abilities)
         const speed = this.props.navigation.getParam("speed");
         const attack = this.props.navigation.getParam("attack");
         const defense = this.props.navigation.getParam("defense");
@@ -49,8 +46,6 @@ class PokemonRoom extends Component {
 
 
         this.setState({ id, name: pokemon, height, weight, abilities, moves, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
-        // console.log(pokemon, id, height, weight, abilities, moves, sprite_url, stats, types)
-        // console.log(stats)
     }
 }
 const styles = StyleSheet.create({

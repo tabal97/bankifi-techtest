@@ -7,7 +7,8 @@ import { withNavigation } from "react-navigation"
 class Home extends Component {
     state = { pokemon: "", error: false, fakePokemon: "" }
     render() {
-        const { pokemon, error, fakePokemon } = this.state
+        const { pokemon, error, fakePokemon } = this.state;
+        console.log(error)
         return (
             <ImageBackground source={require("../assets/pokemon-bg.jpg")} style={styles.container}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -23,6 +24,7 @@ class Home extends Component {
     }
 
     handlePokemonChange = e => {
+
         this.setState({ pokemon: e })
     }
     handleSearch = e => {
@@ -44,20 +46,17 @@ class Home extends Component {
         })
         const front_male = data.sprites.front_default;
         const back_male = data.sprites.back_default;
-        // console.log(data.stats, "unformatted")
         const stats = data.stats.reduce((total, currObj) => {
             total[currObj.stat.name] = currObj.base_stat;
             return total
         }, {})
-        // console.log(stats, "stats")
         const types = data.types.map(({ type }) => {
             return type.name;
         })
         const { speed, attack, defense, hp } = stats;
         const specAtk = stats[`special-attack`];
         const specDef = stats[`special-defense`];
-        // console.log("id", id, "name", pokemon, "height", height, "weight", weight, "spec-abilities", abilities, "moves", moves, "sprite", sprite_url, "stats", stats, "types", types)
-        this.props.navigation.navigate("PokemonRoom", { id, pokemon, height, weight, abilities, moves, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
+        return this.props.navigation.navigate("PokemonRoom", { id, pokemon, height, weight, abilities, moves, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
     }
 }
 
@@ -73,7 +72,12 @@ const styles = StyleSheet.create({
         resizeMode: 'contain'
     },
     errorMsg: {
-        color: "red",
+        color: "white",
+        backgroundColor: "red",
+        borderRadius: 3,
+        padding: 1,
+        overflow: "hidden",
+        marginBottom: 5
     },
     inputBox: {
         height: 100,
