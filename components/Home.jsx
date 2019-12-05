@@ -8,7 +8,6 @@ class Home extends Component {
     state = { pokemon: "", error: false, fakePokemon: "" }
     render() {
         const { pokemon, error, fakePokemon } = this.state;
-        console.log(error)
         return (
             <ImageBackground source={require("../assets/pokemon-bg.jpg")} style={styles.container}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -18,25 +17,25 @@ class Home extends Component {
                         onChangeText={this.handlePokemonChange}
                         value={pokemon}
                         autoCorrect={false} />
-                    {error && <Text style={styles.errorMsg}>Are you sure {fakePokemon} is a real pokemon?</Text>}
+                    {error && <Text style={styles.errorMsg}>Are you sure "{fakePokemon}" is a real pokemon?</Text>}
                     <TouchableOpacity onPress={this.handleSearch} disabled={!pokemon}><Text style={styles.button}>Search!</Text></TouchableOpacity>
                 </KeyboardAvoidingView></ImageBackground>);
     }
 
     handlePokemonChange = e => {
-
         this.setState({ pokemon: e })
     }
     handleSearch = e => {
         const { pokemon } = this.state;
         const formattedPokemon = pokemon.toLowerCase()
-        axios.get(`https://pokeapi.co/api/v2/pokemon/${formattedPokemon}`).then(({ data }) => { this.handleSuccess(data) }).catch(this.handleError(pokemon))
+        return axios.get(`https://pokeapi.co/api/v2/pokemon/${formattedPokemon}`).then(({ data }) => { this.handleSuccess(data) }).catch(err => this.handleError(err))
     }
-    handleError = pokemon => {
-        this.setState({ error: true, fakePokemon: pokemon })
+    handleError = err => {
+        const { pokemon } = this.state;
+        return this.setState({ error: true, fakePokemon: pokemon })
     }
     handleSuccess = data => {
-        this.setState({ error: false, pokemon: "" });
+        this.setState({ pokemon: "", error: false });
         const { id, height, weight, name: pokemon } = data;
         const abilities = data.abilities.map(({ ability }) => {
             return ability.name
