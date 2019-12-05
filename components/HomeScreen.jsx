@@ -14,6 +14,9 @@ class HomeScreen extends Component {
     };
     handleFinder = () => {
         this.props.navigation.navigate("SearchScreen")
+    };
+    handleTypes = () => {
+        this.props.navigation.navigate("TypesScreen")
     }
 }
 

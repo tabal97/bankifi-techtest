@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import SearchScreen from "./components/SearchScreen";
 import PokemonCard from "./components/PokemonCard";
-import HomeScreen from "./components/HomeScreen"
+import HomeScreen from "./components/HomeScreen";
+import TypesScreen from "./components/TypesScreen";
+import PokemonList from "./components/PokemonList";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
@@ -13,6 +15,16 @@ const RootStack = createStackNavigator({
       gesturesEnabled: false
     }
   },
+  TypesScreen: {
+    screen: TypesScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "red"
+      },
+      title: "Pokémon Types"
+    }
+  },
+  PokemonList,
   SearchScreen: {
     screen: SearchScreen,
     navigationOptions: {

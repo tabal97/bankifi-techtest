@@ -12,12 +12,12 @@ class SearchScreen extends Component {
             <ImageBackground source={require("../assets/SearchScreen-bg.jpg")} style={styles.container}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
                     <Image source={require("../assets/pokemon-search.png")} style={styles.header} />
-                    <TextInput placeholder="Enter Pokemon"
+                    <TextInput placeholder="Pokémon Name or ID"
                         style={styles.inputBox}
                         onChangeText={this.handlePokemonChange}
                         value={pokemon}
                         autoCorrect={false} />
-                    {error && <Text style={styles.errorMsg}>Are you sure "{fakePokemon}" is a real pokemon?</Text>}
+                    {error && <Text style={styles.errorMsg}>Are you sure "{fakePokemon}" is a real Pokémon?</Text>}
                     <TouchableOpacity onPress={this.handleSearch} disabled={!pokemon}><Text style={styles.button}>Search!</Text></TouchableOpacity>
                 </KeyboardAvoidingView></ImageBackground>);
     }
