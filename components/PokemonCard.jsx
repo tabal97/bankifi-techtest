@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, FlatList, SafeAreaView, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"
-class PokemonRoom extends Component {
-    state = { id: null, name: "", height: null, weight: null, abilities: [], moves: [], front_male: "", back_male: "", speed: 0, hp: 0, attack: 0, defense: 0, specAtk: 0, specDef: 0, types: [] }
+class PokemonCard extends Component {
+    state = { id: null, name: "", height: null, weight: null, abilities: [], front_male: "", back_male: "", speed: 0, hp: 0, attack: 0, defense: 0, specAtk: 0, specDef: 0, types: [] }
     render() {
-        const { id, name, height, weight, abilities, moves, front_male, back_male, speed, defense, attack, hp, specAtk, specDef, types } = this.state;
+        const { id, name, height, weight, abilities, front_male, back_male, speed, defense, attack, hp, specAtk, specDef, types } = this.state;
         return (
-            <ImageBackground source={require("../assets/pokemonRoom-bg.jpeg")} style={styles.container}>
+            <ImageBackground source={require("../assets/PokemonCard-bg.jpeg")} style={styles.container}>
                 <SafeAreaView style={styles.container}>
                     <Text style={styles.name}>{name} - ID: {id}</Text>
                     <View style={styles.images}>
@@ -33,7 +33,6 @@ class PokemonRoom extends Component {
         const height = this.props.navigation.getParam("height");
         const weight = this.props.navigation.getParam("weight");
         const abilities = this.props.navigation.getParam("abilities").join("  ||  ");
-        const moves = this.props.navigation.getParam("moves");
         const front_male = this.props.navigation.getParam("front_male");
         const back_male = this.props.navigation.getParam("back_male");
         const speed = this.props.navigation.getParam("speed");
@@ -45,7 +44,7 @@ class PokemonRoom extends Component {
         const types = this.props.navigation.getParam("types");
 
 
-        this.setState({ id, name: pokemon, height, weight, abilities, moves, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
+        this.setState({ id, name: pokemon, height, weight, abilities, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
     }
 }
 const styles = StyleSheet.create({
@@ -95,4 +94,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PokemonRoom;
+export default PokemonCard;

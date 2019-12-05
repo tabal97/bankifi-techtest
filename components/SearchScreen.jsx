@@ -4,14 +4,14 @@ import axios from "axios";
 import { withNavigation } from "react-navigation"
 
 
-class Home extends Component {
+class SearchScreen extends Component {
     state = { pokemon: "", error: false, fakePokemon: "" }
     render() {
         const { pokemon, error, fakePokemon } = this.state;
         return (
-            <ImageBackground source={require("../assets/pokemon-bg.jpg")} style={styles.container}>
+            <ImageBackground source={require("../assets/SearchScreen-bg.jpg")} style={styles.container}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
-                    <Image source={require("../assets/pokedex-header.png")} style={styles.header} />
+                    <Image source={require("../assets/pokemon-search.png")} style={styles.header} />
                     <TextInput placeholder="Enter Pokemon"
                         style={styles.inputBox}
                         onChangeText={this.handlePokemonChange}
@@ -40,9 +40,6 @@ class Home extends Component {
         const abilities = data.abilities.map(({ ability }) => {
             return ability.name
         });
-        const moves = data.moves.map(({ move }) => {
-            return move.name
-        })
         const front_male = data.sprites.front_default;
         const back_male = data.sprites.back_default;
         const stats = data.stats.reduce((total, currObj) => {
@@ -55,7 +52,7 @@ class Home extends Component {
         const { speed, attack, defense, hp } = stats;
         const specAtk = stats[`special-attack`];
         const specDef = stats[`special-defense`];
-        return this.props.navigation.navigate("PokemonRoom", { id, pokemon, height, weight, abilities, moves, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
+        return this.props.navigation.navigate("PokemonCard", { id, pokemon, height, weight, abilities, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
     }
 }
 
@@ -101,4 +98,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default withNavigation(Home);
+export default withNavigation(SearchScreen);
