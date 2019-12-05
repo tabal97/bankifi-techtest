@@ -3,15 +3,16 @@ import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, TextI
 import axios from "axios";
 class TypesScreen extends Component {
     state = {
-        types: null
+        types: null, error: false
     }
     render() {
-        const { types } = this.state;
+        const { types, error } = this.state;
         // console.log(types, "state")
         return (
             <ImageBackground source={require("../assets/pokemon-bg.jpg")} style={styles.container}>
                 <SafeAreaView style={styles.container}>
                     <ScrollView style={styles.scrollView}>
+                        {error && <Text style={styles.errorMsg}>There seems to be an issue with the servers. Please try again later</Text>}
                         {types && types.map(type => {
                             return <TouchableOpacity onPress={() => this.handlePress(type)} key={type.url} ><Text style={styles.button}>{type.name}</Text></TouchableOpacity>
                         })}
@@ -22,8 +23,8 @@ class TypesScreen extends Component {
     }
     componentDidMount() {
         axios.get("https://pokeapi.co/api/v2/type/").then(({ data }) => {
-            this.setState({ types: data.results })
-        })
+            this.setState({ types: data.results, error: false })
+        }).catch(err => this.setState({ error: true }))
     }
     handlePress = (type) => {
         const { name, url } = type
@@ -47,6 +48,14 @@ const styles = StyleSheet.create({
         overflow: "hidden",
         padding: 30,
         paddingHorizontal: 100
+    },
+    errorMsg: {
+        color: "white",
+        backgroundColor: "red",
+        borderRadius: 3,
+        padding: 1,
+        overflow: "hidden",
+        marginBottom: 5
     }
 })
 
