@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, ImageBackground, TouchableOpacity, Text, SafeAreaView, ScrollView } from "react-native";
-import * as api from "../assets/utils/api"
+import * as api from "../assets/utils/api";
+import * as utils from "../assets/utils/dataFormatter"
 
 class PokemonList extends Component {
     state = { pokemons: null, error: false }
@@ -30,24 +31,9 @@ class PokemonList extends Component {
         return this.setState({ error: true })
     }
     handleSuccess = data => {
-        this.setState({ error: false })
-        const { id, height, weight, name: pokemon } = data;
-        const abilities = data.abilities.map(({ ability }) => {
-            return ability.name
-        });
-        const front_male = data.sprites.front_default;
-        const back_male = data.sprites.back_default;
-        const stats = data.stats.reduce((total, currObj) => {
-            total[currObj.stat.name] = currObj.base_stat;
-            return total
-        }, {})
-        const types = data.types.map(({ type }) => {
-            return type.name;
-        })
-        const { speed, attack, defense, hp } = stats;
-        const specAtk = stats[`special-attack`];
-        const specDef = stats[`special-defense`];
-        return this.props.navigation.navigate("PokemonCard", { id, pokemon, height, weight, abilities, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
+        this.setState({ error: false });
+        const formattedData = utils.formatPokemonData(data);
+        return this.props.navigation.navigate("PokemonCard", formattedData)
     }
 }
 

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, TextInput, KeyboardAvoidingView } from "react-native";
-import * as api from "../assets/utils/api"
-import { withNavigation } from "react-navigation"
+import { StyleSheet, ImageBackground, Image, TouchableOpacity, Text, TextInput, KeyboardAvoidingView } from "react-native";
+import * as api from "../assets/utils/api";
+import * as utils from "../assets/utils/dataFormatter"
+import { withNavigation } from "react-navigation";
+
 
 
 class SearchScreen extends Component {
@@ -36,23 +38,8 @@ class SearchScreen extends Component {
     }
     handleSuccess = data => {
         this.setState({ pokemon: "", error: false });
-        const { id, height, weight, name: pokemon } = data;
-        const abilities = data.abilities.map(({ ability }) => {
-            return ability.name
-        });
-        const front_male = data.sprites.front_default;
-        const back_male = data.sprites.back_default;
-        const stats = data.stats.reduce((total, currObj) => {
-            total[currObj.stat.name] = currObj.base_stat;
-            return total
-        }, {})
-        const types = data.types.map(({ type }) => {
-            return type.name;
-        })
-        const { speed, attack, defense, hp } = stats;
-        const specAtk = stats[`special-attack`];
-        const specDef = stats[`special-defense`];
-        return this.props.navigation.navigate("PokemonCard", { id, pokemon, height, weight, abilities, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
+        const formattedData = utils.formatPokemonData(data);
+        return this.props.navigation.navigate("PokemonCard", formattedData)
     }
 }
 

@@ -13,7 +13,11 @@ class TypesScreen extends Component {
                     <ScrollView style={styles.scrollView}>
                         {error && <Text style={styles.errorMsg}>There seems to be an issue with the servers. Please try again later</Text>}
                         {types && types.map(type => {
-                            return <TouchableOpacity onPress={() => this.handlePress(type)} key={type.url} ><Text style={styles.button}>{type.name}</Text></TouchableOpacity>
+                            return <TouchableOpacity onPress={() => this.handlePress(type)} key={type.url} >
+                                <Text style={styles.button}>
+                                    {type.name}
+                                </Text>
+                            </TouchableOpacity>
                         })}
                     </ScrollView>
                 </SafeAreaView>
