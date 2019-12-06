@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, TextInput, ScrollView, SafeAreaView } from "react-native";
-import axios from "axios";
+import { StyleSheet, ImageBackground, TouchableOpacity, Text, ScrollView, SafeAreaView } from "react-native";
+import * as api from "../assets/utils/api"
 class TypesScreen extends Component {
     state = {
         types: null, error: false
     }
     render() {
         const { types, error } = this.state;
-        // console.log(types, "state")
         return (
             <ImageBackground source={require("../assets/pokemon-bg.jpg")} style={styles.container}>
                 <SafeAreaView style={styles.container}>
@@ -22,7 +21,7 @@ class TypesScreen extends Component {
         );
     }
     componentDidMount() {
-        axios.get("https://pokeapi.co/api/v2/type/").then(({ data }) => {
+        api.getTypes().then(data => {
             this.setState({ types: data.results, error: false })
         }).catch(err => this.setState({ error: true }))
     }
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         padding: 1,
         overflow: "hidden",
-        marginBottom: 5
+        marginTop: 5
     }
 })
 

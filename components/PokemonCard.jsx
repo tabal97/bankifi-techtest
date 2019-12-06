@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, FlatList, SafeAreaView, ScrollView } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons"
+import { StyleSheet, ImageBackground, View, Image, Text, SafeAreaView } from "react-native";
 class PokemonCard extends Component {
-    state = { id: null, name: "", height: null, weight: null, abilities: [], front_male: "", back_male: "", speed: 0, hp: 0, attack: 0, defense: 0, specAtk: 0, specDef: 0, types: [] }
+    state = { id: null, pokemon: "", height: null, weight: null, abilities: [], front_male: "", back_male: "", speed: 0, hp: 0, attack: 0, defense: 0, specAtk: 0, specDef: 0, types: [] }
     render() {
-        const { id, name, height, weight, abilities, front_male, back_male, speed, defense, attack, hp, specAtk, specDef, types } = this.state;
+        const { id, pokemon, height, weight, abilities, front_male, back_male, speed, defense, attack, hp, specAtk, specDef, types } = this.state;
         return (
             <ImageBackground source={require("../assets/PokemonCard-bg.jpeg")} style={styles.container}>
                 <SafeAreaView style={styles.container}>
-                    <Text style={styles.name}>{name} - ID: {id}</Text>
+                    <Text style={styles.name}>{pokemon} - ID: {id}</Text>
                     <View style={styles.images}>
                         <Image style={styles.img} source={front_male ? { uri: front_male } : require("../assets/loading.jpg")}></Image>
                         <Image style={styles.img} source={back_male ? { uri: back_male } : require("../assets/loading.jpg")}></Image>
                     </View>
                     <Text style={styles.text}>Height: {height} || Weight: {weight}</Text>
-                    <Text style={styles.text}>Abilities: {abilities}</Text>
+                    <Text style={styles.stats}>Abilities:</Text>
+                    {abilities.map(ability => {
+                        return <Text style={styles.text} key={ability}>{ability}</Text>
+                    })}
                     <Text style={styles.stats}>Stats:</Text>
                     <Text style={styles.text}>HP: {hp}  ||  ATK: {attack}  || DEF: {defense}  ||  Speed: {speed}</Text>
                     <Text style={styles.text}>Special-ATK: {specAtk}  ||  Special-DEF: {specDef}</Text>
@@ -28,23 +30,7 @@ class PokemonCard extends Component {
     }
 
     componentDidMount() {
-        const id = this.props.navigation.getParam("id");
-        const pokemon = this.props.navigation.getParam("pokemon");
-        const height = this.props.navigation.getParam("height");
-        const weight = this.props.navigation.getParam("weight");
-        const abilities = this.props.navigation.getParam("abilities").join("  ||  ");
-        const front_male = this.props.navigation.getParam("front_male");
-        const back_male = this.props.navigation.getParam("back_male");
-        const speed = this.props.navigation.getParam("speed");
-        const attack = this.props.navigation.getParam("attack");
-        const defense = this.props.navigation.getParam("defense");
-        const hp = this.props.navigation.getParam("hp");
-        const specAtk = this.props.navigation.getParam("specAtk");
-        const specDef = this.props.navigation.getParam("specDef");
-        const types = this.props.navigation.getParam("types");
-
-
-        this.setState({ id, name: pokemon, height, weight, abilities, front_male, back_male, speed, attack, defense, hp, specAtk, specDef, types })
+        this.setState(this.props.navigation.state.params)
     }
 }
 const styles = StyleSheet.create({

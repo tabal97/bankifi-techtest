@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, TextInput, KeyboardAvoidingView } from "react-native";
-import axios from "axios";
+import * as api from "../assets/utils/api"
 import { withNavigation } from "react-navigation"
 
 
@@ -28,7 +28,7 @@ class SearchScreen extends Component {
     handleSearch = e => {
         const { pokemon } = this.state;
         const formattedPokemon = pokemon.toLowerCase()
-        return axios.get(`https://pokeapi.co/api/v2/pokemon/${formattedPokemon}`).then(({ data }) => { this.handleSuccess(data) }).catch(err => this.handleError(err))
+        api.getPokemonByName(formattedPokemon).then(data => { this.handleSuccess(data) }).catch(err => this.handleError(err))
     }
     handleError = err => {
         const { pokemon } = this.state;

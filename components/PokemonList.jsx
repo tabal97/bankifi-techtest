@@ -1,19 +1,18 @@
 import React, { Component } from "react";
-import { StyleSheet, ImageBackground, View, Image, TouchableOpacity, Text, SafeAreaView, TextInput, ScrollView } from "react-native";
-import axios from "axios";
+import { StyleSheet, ImageBackground, TouchableOpacity, Text, SafeAreaView, ScrollView } from "react-native";
+import * as api from "../assets/utils/api"
 
 class PokemonList extends Component {
     state = { pokemons: null, error: false }
     render() {
         const { pokemons, error } = this.state;
-        console.log(pokemons)
         return (
             <ImageBackground source={require("../assets/pokemon-bg.jpg")} style={styles.container}>
                 <SafeAreaView style={styles.container}>
                     <ScrollView style={styles.scrollView}>
                         {error && <Text style={styles.errorMsg}>There seems to be an issue with the servers. Please try again later</Text>}
                         {pokemons && pokemons.map(({ pokemon }) => {
-                            return <TouchableOpacity onPress={() => this.handlePress(pokemon.url)} key={pokemon.name}><Text style={styles.button}>{pokemon.name}</Text></TouchableOpacity>
+                            return <TouchableOpacity onPress={() => this.handlePress(pokemon.name)} key={pokemon.name}><Text style={styles.button}>{pokemon.name}</Text></TouchableOpacity>
                         })}
                     </ScrollView>
                 </SafeAreaView>
@@ -22,10 +21,10 @@ class PokemonList extends Component {
     }
     componentDidMount() {
         const url = this.props.navigation.getParam("url");
-        axios.get(url).then(({ data: { pokemon } }) => this.setState({ pokemons: pokemon, error: false })).catch(err => this.handleError(err))
+        api.getPokemonsByType(url).then(pokemon => this.setState({ pokemons: pokemon, error: false })).catch(err => this.handleError(err))
     }
-    handlePress = (url) => {
-        axios.get(url).then(({ data }) => { this.handleSuccess(data) }).catch(err => this.handleError(err))
+    handlePress = (name) => {
+        api.getPokemonByName(name).then(data => { this.handleSuccess(data) }).catch(err => this.handleError(err))
     }
     handleError = err => {
         return this.setState({ error: true })
