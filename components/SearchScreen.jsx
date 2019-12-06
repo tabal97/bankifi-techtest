@@ -13,7 +13,7 @@ class SearchScreen extends Component {
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
                     <Image source={require("../assets/pokemon-search.png")} style={styles.header} />
                     <TextInput placeholder="Pokémon Name or ID"
-                        style={styles.inputBox}
+                        style={error ? styles.inputBoxWrong : styles.inputBox}
                         onChangeText={this.handlePokemonChange}
                         value={pokemon}
                         autoCorrect={false} />
@@ -85,6 +85,19 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 30,
         borderWidth: 3,
+        backgroundColor: "whitesmoke"
+    },
+    inputBoxWrong: {
+        height: 100,
+        width: 300,
+        padding: 3,
+        margin: 3,
+        borderRadius: 20,
+        marginBottom: 50,
+        textAlign: "center",
+        fontSize: 30,
+        borderWidth: 3,
+        borderColor: "red",
         backgroundColor: "whitesmoke"
     },
     button: {
