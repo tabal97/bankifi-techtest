@@ -4,7 +4,7 @@
 
 Pokedex is a fun to use app that allows the user to browse through all the known pokemon and find out more about their stats and their abilities. The user can both search specifically for each pokemon using the pokemon finder tool; or if they are unsure or would like to explore pokemon based on their type then this app makes this possible.
 
-The making of this app would not have been possible if it were not for the support of the open API that PokeAPI.com provides.
+The making of this app would not have been possible if it were not for the support of the open API that PokeAPI.co provides.
 
 The app is responsive on both ios and andriod; all rights to the images and backgrounds used in this app are reserved for their publishers. This app is solely for demonstration purposes.
 
